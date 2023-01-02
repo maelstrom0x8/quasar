@@ -8,11 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.aeflheim.quasar.model.User;
 
-public class SecurityUser implements UserDetails {
+public class QsUserDetails implements UserDetails {
 
     private final User user;
 
-    public SecurityUser(User user) {
+    public QsUserDetails(User user) {
         this.user = user;
     }
 
