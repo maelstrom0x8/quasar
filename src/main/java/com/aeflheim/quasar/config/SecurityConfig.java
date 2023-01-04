@@ -14,9 +14,9 @@ public class SecurityConfig {
     @Autowired
     private QsAuthenticationProvider qsAuthenticationProvider;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.formLogin().defaultSuccessUrl("/");
         return http.authorizeHttpRequests(auth -> {
             auth.anyRequest().authenticated();
         }).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
