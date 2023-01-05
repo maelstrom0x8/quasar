@@ -2,7 +2,6 @@ package com.aeflheim.quasar.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,12 +16,15 @@ import com.aeflheim.quasar.repository.UserRepository;
 @Service
 public class QsUserDetailsService implements UserDetailsService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    public QsUserDetailsService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public String createUser(UserDto userDto) {
         User user = new User(
@@ -33,6 +35,14 @@ public class QsUserDetailsService implements UserDetailsService {
 
         User saved = userRepository.save(user);
         return saved.getUsername();
+    }
+
+    public UserDetails loadUserByEmail(String email) throws EmailNotFoundException {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()){
+            return new QsUserDetails(user.get());
+        }
+        throw new EmailNotFoundException("Error occured in authentication");
     }
 
     @Override

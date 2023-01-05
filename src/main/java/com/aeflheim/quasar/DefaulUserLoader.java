@@ -26,12 +26,12 @@ public class DefaulUserLoader {
         User anna = new User();
         anna.setUsername("anna");
         anna.setPassword(passwordEncoder.encode("sandstorm"));
-        anna.setAuthority("READ");
+        anna.setAuthority("ROLE_USER");
 
         User king = new User();
         king.setUsername("king");
         king.setPassword(passwordEncoder.encode("infinity"));
-        king.setAuthority("READ");
+        king.setAuthority("ROLE_ADMIN");
 
         userRepository.saveAll(List.of(anna, king));
     }
