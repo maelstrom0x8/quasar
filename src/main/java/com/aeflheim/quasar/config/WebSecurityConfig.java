@@ -9,6 +9,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.aeflheim.quasar.config.filter.AuthenticationLoggingFilter;
+import com.aeflheim.quasar.config.filter.RequestValidationFilter;
 
 @Configuration
 public class WebSecurityConfig {
@@ -21,6 +25,7 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
+            auth.requestMatchers("/greet/hello").permitAll();
             auth.requestMatchers("/greet/**").authenticated();
             auth.requestMatchers(HttpMethod.GET, "/a").authenticated();
             auth.requestMatchers(HttpMethod.POST, "/a").permitAll();
@@ -29,6 +34,8 @@ public class WebSecurityConfig {
             auth.anyRequest().denyAll();
         }).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(new RequestValidationFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(new AuthenticationLoggingFilter(), BasicAuthenticationFilter.class)
                 .csrf().disable()
                 .build();
     }
