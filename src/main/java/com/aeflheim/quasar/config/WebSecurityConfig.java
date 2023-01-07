@@ -2,15 +2,18 @@ package com.aeflheim.quasar.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
+
+import com.aeflheim.quasar.config.filter.CsrfTokenLoggerFilter;
 
 @Configuration
-public class SecurityConfig {
+@EnableWebSecurity
+public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -20,10 +23,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> {
-            auth.anyRequest().authenticated();
+            auth.anyRequest().permitAll();
         })
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(Customizer.withDefaults())
+                .addFilterAfter(new CsrfTokenLoggerFilter(), CsrfFilter.class)
                 .build();
     }
 
