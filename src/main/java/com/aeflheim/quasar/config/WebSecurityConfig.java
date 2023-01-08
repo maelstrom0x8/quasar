@@ -26,6 +26,9 @@ public class WebSecurityConfig {
             auth.anyRequest().permitAll();
         })
                 .addFilterAfter(new CsrfTokenLoggerFilter(), CsrfFilter.class)
+                .csrf(c -> {
+                    c.ignoringRequestMatchers("/ciao");
+                })
                 .build();
     }
 

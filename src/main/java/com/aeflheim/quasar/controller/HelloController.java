@@ -16,4 +16,10 @@ public class HelloController {
     public String bye() {
         return "Bye :(";
     }
+
+    @PostMapping("/ciao")
+    public String ciao() {
+        return "Ciao!";
+    }
+
 }
