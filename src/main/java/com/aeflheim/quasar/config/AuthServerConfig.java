@@ -2,6 +2,7 @@ package com.aeflheim.quasar.config;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -36,10 +37,10 @@ import com.nimbusds.jose.proc.SecurityContext;
 @Configuration
 public class AuthServerConfig {
 
-  /*   @Autowired
-    private AuthenticationManager authenticationManager; */
-
+    @Value("${spring.security.oauth2.client.registration.quasar.client-id}")
     private String clientId;
+
+    @Value("${spring.security.oauth2.client.registration.quasar.client-secret}")
     private String clientSecret;
 
     @Bean
@@ -68,8 +69,8 @@ public class AuthServerConfig {
     @Bean
     public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
         RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-                .clientId("messaging-client")
-                .clientSecret("{noop}secret")
+                .clientId(clientId)
+                .clientSecret(clientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)

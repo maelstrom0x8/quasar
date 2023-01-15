@@ -17,15 +17,13 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.formLogin()
-                .and().authorizeHttpRequests().anyRequest().authenticated()
-                .and().build();
-    }
+        http.formLogin()
+        .and()
+        .authorizeHttpRequests(c -> {
+            c.anyRequest().authenticated();
+        });
 
-    /* @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    } */
+        return http.build();
+    }
 
 }
