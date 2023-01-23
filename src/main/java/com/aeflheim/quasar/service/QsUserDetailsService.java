@@ -23,25 +23,24 @@ public class QsUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     public String createUser(UserDto userDto) {
-        User user = new User(
-                userDto.getUsername(),
-                passwordEncoder.encode(userDto.getPassword()),
-                userDto.getEmail(),
-                userDto.getFirstName(), userDto.getLastName());
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setAuthority("read");
 
         User saved = userRepository.save(user);
+
         return saved.getUsername();
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
-        if(user.isPresent()) {
-            return new QsUserDetails(user.get());
-        }
-        throw new UsernameNotFoundException("Error occured in authentication");
+
+        return user.map(QsUserDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("Error occured in authentication"));
+
     }
 
 }
