@@ -40,15 +40,15 @@ public class DefaultLoader {
         User king = new User();
         king.setUsername("king");
         king.setPassword(passwordEncoder.encode("infinity"));
-        king.setAuthority("read");
+        king.setAuthority("openid");
 
         userRepository.saveAll(List.of(anna, king));
 
         Client client = new Client();
-        client.setClientId("quasar");
-        client.setClientSecret("redstorm");
+        client.setClientId("client");
+        client.setClientSecret("secret");
         client.setRedirectUri("https://springone.io/authorized");
-        client.setScope("read");
+        client.setScope("openid");
         client.setAuthenticationMethod("client_secret_basic");
         client.setGrantType("authorization_code");
         

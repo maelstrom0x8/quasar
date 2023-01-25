@@ -28,7 +28,7 @@ import com.nimbusds.jose.proc.SecurityContext;
 @Configuration
 public class ServerConfig {
 
-    // http://localhost:9000/oauth2/authorize?response_type=code&client_id=quasar&scope=read&redirect_uri=https://springone.io/authorized&code_challenge=QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8&code_challenge_method=S256
+    // http://localhost:9000/oauth2/authorize?response_type=code&client_id=client&scope=openid&redirect_uri=https://springone.io/authorized&code_challenge=QYPAZ5NU8yvtlQ9erXrUYR-T5AGCjCF47vN-KsaI2A8&code_challenge_method=S256
 
     // http://localhost:8080/oauth2/token?client_id=client&redirect_uri=https://springone.io/authorized&grant_type=authorization_code&code=eP19yl20g0U9Ui8hWqnHn4E8BItV1Vv2N01s-TQ4j7C-ubSMgqbKTJ3viNN4nksHsO1QuSc0iLlwoH44YMFak2i0rg3oScLZ0U_eO2sG93QOulh5mQc9kR7_NG3CzICL&code_verifier=qPsH306-ZDDaOE8DFzVn05TkN3ZZoVmI_6x4LsVglQI
 
